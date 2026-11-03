@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>War Map</title>
+  <meta name="description" content="Interactive map and globe of the world's wars and armed conflicts through time, built from Wikipedia and Wikidata.">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="map"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>War Map</h1>
+      <span class="sub">wars &amp; armed conflicts through time</span>
+    </div>
+    <div class="view-toggle" role="group" aria-label="Map view">
+      <button id="btn-globe" class="active">Globe</button>
+      <button id="btn-flat">2D map</button>
+    </div>
+  </header>
+
+  <aside class="panel" id="panel">
+    <div class="panel-head">
+      <div class="stats"><strong id="count">0</strong> active conflicts in <span id="count-date">—</span></div>
+      <input id="search" type="search" placeholder="Filter by name or country…" autocomplete="off">
+      <label class="chk"><input type="checkbox" id="only-ongoing"> Only conflicts ongoing today</label>
+    </div>
+    <ul id="list"></ul>
+    <button class="panel-toggle" id="panel-toggle" aria-label="Toggle list">☰</button>
+  </aside>
+
+  <section class="detail hidden" id="detail">
+    <button class="close" id="detail-close" aria-label="Close">×</button>
+    <img id="d-img" alt="">
+    <h2 id="d-name"></h2>
+    <div class="meta" id="d-meta"></div>
+    <p id="d-extract"></p>
+    <div class="countries" id="d-countries"></div>
+    <a id="d-link" target="_blank" rel="noopener">Read on Wikipedia →</a>
+  </section>
+
+  <footer class="timeline">
+    <div class="eras" id="eras">
+      <button data-from="-1000" data-to="500">Antiquity</button>
+      <button data-from="500" data-to="1500">Medieval</button>
+      <button data-from="1500" data-to="1800">1500–1800</button>
+      <button data-from="1800" data-to="1945">1800–1945</button>
+      <button data-from="1900" data-to="now" class="active">1900–today</button>
+    </div>
+    <div class="controls">
+      <button id="play" aria-label="Play">▶</button>
+      <button id="prev" aria-label="Previous month">‹</button>
+      <div class="date" id="date">—</div>
+      <button id="next" aria-label="Next month">›</button>
+      <input type="range" id="slider" min="0" max="100" value="100">
+      <select id="speed" aria-label="Playback speed">
+        <option value="1">1 mo/step</option>
+        <option value="3">3 mo/step</option>
+        <option value="12" selected>1 yr/step</option>
+        <option value="60">5 yr/step</option>
+      </select>
+    </div>
+    <div class="legend">
+      <span><i class="lg ongoing"></i>ongoing today</span>
+      <span><i class="lg past"></i>active at this date</span>
+      <span><i class="lg site"></i>battle / event site</span>
+      <span><i class="lg site-now"></i>event this year</span>
+      <span class="src">Data: <a href="https://www.wikidata.org" target="_blank" rel="noopener">Wikidata</a> &amp; <a href="https://en.wikipedia.org/wiki/List_of_ongoing_armed_conflicts" target="_blank" rel="noopener">Wikipedia</a> · Map: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> © OpenStreetMap</span>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
