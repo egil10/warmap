@@ -14,6 +14,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/fetch_wars.py
+        timeout-minutes: 40
       - name: Commit if changed
         run: |
           if [ "$(python -c "import json;print(len(json.load(open('data/wars.json'))['wars']))")" -lt 1000 ]; then echo "Suspiciously small dataset, skipping"; exit 0; fi

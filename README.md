@@ -5,22 +5,21 @@ An interactive **globe / 2D map of the world's wars and armed conflicts through 
 **Live:** https://egil10.github.io/warmap/
 
 ## Features
-- 🌍 Globe ↔ 2D map toggle (MapLibre GL, OpenFreeMap tiles — no API keys)
-- 🕰 Timeline slider by year-month, era presets (antiquity → today), play button, arrow-key stepping (Shift = 1 year)
-- 📍 Locations *within* countries: each conflict is placed at its own coordinates, its location, or the centroid of its battles/sub-events; individual battle & event sites are drawn as dots and light up in the year they happen
-- 🔴 Ongoing conflicts flagged from Wikipedia's *List of ongoing armed conflicts*
-- 📖 Click a conflict for its Wikipedia summary & image
-- 🔗 Shareable URLs: `#1943-06`
+- Globe and flat map (MapLibre GL + OpenFreeMap, no API keys)
+- Month-by-month timeline from 1000 BC to today; play, arrow keys (Shift = year)
+- Conflicts placed *inside* countries: countries involved are shaded, and fighting zones are drawn as a heatmap of battle and event sites, which light up in the year they happen
+- Ongoing conflicts from Wikipedia's *List of ongoing armed conflicts*
+- Click for the Wikipedia summary; shareable URLs like `#1944-06`
 
 ## Data
-`scripts/fetch_wars.py` pulls wars, civil wars, insurgencies, rebellions, revolutions, invasions, campaigns, operations and offensives that have an English Wikipedia article from **Wikidata**, then attaches every geolocated sub-event (battles, sieges, etc. that are *part of* the war) to place it accurately inside countries. Output: `data/wars.json`.
+`scripts/fetch_wars.py` pulls wars, civil wars, insurgencies, rebellions, revolutions, invasions, coups, interventions, colonial and proxy wars, campaigns, operations, offensives, occupations, and standalone battles and sieges that have an English Wikipedia article from **Wikidata**, then attaches every geolocated sub-event (battles, sieges, etc. that are *part of* the war) to place it accurately inside countries. Output: `data/wars.json`.
 
-Location precedence: the conflict's own coordinates → its location (P276) → centroid of its battle sites → centroid of involved countries (marked "country-level").
+Location precedence: the conflict's own coordinates, unless those are missing or far from its battles (Wikidata pins World War II at 0°N) — then the middle of its battle sites → its location (P276) → one involved country. Distant countries are not averaged, because that midpoint often falls in the ocean. Battle sites are spread across the map rather than truncated to whichever rows Wikidata returns first. Year chronicles ("1955 in the Vietnam War") and non-violent revolutions are left out. A death toll and belligerents are included when Wikidata has them.
 
 A GitHub Action refreshes the data weekly.
 
 ```bash
-python3 scripts/fetch_wars.py     # rebuild data/wars.json (~5 min)
+python3 scripts/fetch_wars.py     # rebuild data/wars.json (half an hour; Wikidata is slow)
 python3 -m http.server            # then open http://localhost:8000
 ```
 
